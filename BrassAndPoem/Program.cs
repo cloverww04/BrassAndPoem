@@ -180,7 +180,47 @@ void AddProduct(List<Product> products, List<ProductType> productTypes)
 
 void UpdateProduct(List<Product> products, List<ProductType> productTypes)
 {
-    throw new NotImplementedException();
+    Console.WriteLine("Enter the number for the product you wish to update: ");
+    DisplayAllProducts(products, productTypes);
+
+    if (Int32.TryParse(Console.ReadLine(), out int productIndex) && productIndex >= 1 && productIndex <= products.Count)
+    {
+        int adjustedIndex = productIndex - 1;
+        Product productToUpdate = products[adjustedIndex];
+
+        Console.WriteLine("Enter the updated name of the product (press enter to leave the name unchanged).");
+        string updatedName = Console.ReadLine();
+        if (!String.IsNullOrEmpty(updatedName))
+        {
+            productToUpdate.Name = updatedName;
+        }
+
+        Console.WriteLine("Enter the updated price of the product (press enter to leave the price unchanged).");
+        string updatedPriceInput = Console.ReadLine();
+        if (!String.IsNullOrEmpty(updatedPriceInput) && Decimal.TryParse(updatedPriceInput, out decimal updatedPrice))
+        {
+            productToUpdate.Price = updatedPrice;
+        }
+
+        Console.WriteLine("Enter the updated product type ID (press enter to leave unchanged).");
+        for (int i = 0; i < productTypes.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. Product ID: {productTypes[i].Id} \t Product Title: {productTypes[i].Title}");
+        }
+
+        string updatedProductType = Console.ReadLine();
+        if (!String.IsNullOrEmpty(updatedProductType) && Int32.TryParse(updatedProductType, out int updatedId) && updatedId >= 1 && updatedId <= productTypes.Count)
+        {
+            productToUpdate.ProductTypeId = updatedId;
+        }
+
+        Console.WriteLine("Prudct updated!");
+    }
+    else
+    {
+        Console.WriteLine("Invalid product. Update canceled.");
+    }
+ 
 }
 
 // don't move or change this!
