@@ -107,12 +107,34 @@ void DisplayMenu()
 
 void DisplayAllProducts(List<Product> products, List<ProductType> productTypes)
 {
-    throw new NotImplementedException();
+    if (products.Count == 0)
+    {
+        Console.WriteLine("No products available.");
+        return;
+    }
+
+    Console.WriteLine("All Products:");
+    for (int i = 0; i < products.Count; i++)
+    {
+        Product product = products[i];
+        ProductType productType = productTypes.FirstOrDefault(prodType => prodType.Id == product.ProductTypeId);
+        if (productType != null)
+        {
+            int index = i + 1;
+            Console.WriteLine($"{index}. Price: {product.Price:C} \t Title: {productType.Title} \t Product Name: {product.Name}");
+        }
+    }
 }
 
 void DeleteProduct(List<Product> products, List<ProductType> productTypes)
 {
-    throw new NotImplementedException();
+    Console.WriteLine("Please select the number of the product you would like to remove.");
+    DisplayAllProducts(products, productTypes);
+    if (Int32.TryParse(Console.ReadLine(), out int response) && response > 0 && response <= products.Count)
+    {
+        int adjustedResponse = response - 1;
+        products.RemoveAt(adjustedResponse);
+    }
 }
 
 void AddProduct(List<Product> products, List<ProductType> productTypes)
