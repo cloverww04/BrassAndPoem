@@ -139,7 +139,43 @@ void DeleteProduct(List<Product> products, List<ProductType> productTypes)
 
 void AddProduct(List<Product> products, List<ProductType> productTypes)
 {
-    throw new NotImplementedException();
+    Console.WriteLine("Enter the name of the product you would like to add: ");
+    string newProductName = Console.ReadLine();
+    if (String.IsNullOrEmpty(newProductName))
+    {
+        Console.WriteLine("Product name can not be empty. Try again.");
+        return;
+    }
+
+    Console.WriteLine("Please enter the price of the new product: ");
+    if(!Decimal.TryParse(Console.ReadLine(), out decimal price))
+    {
+        Console.WriteLine("Invalid price format. Must be in decimal form. Product will not be added.");
+        return;
+    }
+
+    Console.WriteLine("Please choose a number for which product type ID this new product belongs to: ");
+    
+        for(int i = 0; i < productTypes.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. Product type ID: {productTypes[i].Id} \t {productTypes[i].Title}");
+        }
+    
+    if(!Int32.TryParse(Console.ReadLine(), out int productTypeId) || productTypeId < 1 || productTypeId > productTypes.Count)
+    {
+        Console.WriteLine("Invalid product type ID. This product will not be added.");
+        return;
+    }
+
+    Product newProduct = new()
+    {
+        Name = newProductName,
+        Price = price,
+        ProductTypeId = productTypeId
+    };
+    products.Add(newProduct);
+
+    Console.WriteLine("Product added successfully!");
 }
 
 void UpdateProduct(List<Product> products, List<ProductType> productTypes)
